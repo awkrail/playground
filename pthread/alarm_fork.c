@@ -43,9 +43,13 @@ int main(int argc, char* argv[]) {
         
         pid = fork();
         if(pid == 0) {
-            fprintf(fp, "[%d] (%d) %s\n", sec, i, msg);
-            fflush(fp);
-            sleep(1);
+            fprintf(fp, "I am the child process, line=%s, msg=%s\n", line, msg);
+
+            for(int i = 0; i < sec; ++i) {
+                fprintf(fp, "[%d] (%d) %s\n", sec, i, msg);
+                fflush(fp);
+                sleep(1);
+            }
         }
     }
     fclose(fp);
