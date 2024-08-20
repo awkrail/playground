@@ -43,3 +43,24 @@ clz x
 
 numLongChains :: Int
 numLongChains = length (filter (\xs -> length xs > 15) (map clz [1..100]))
+
+sum' :: (Num a) => [a] -> a
+sum' = foldl (+) 0
+
+map'' :: (a -> b) -> [a] -> [b]
+map'' f xs = foldr (\x acc -> f x : acc) [] xs
+
+enum'' :: (Eq a) => a -> [a] -> Bool
+enum'' y ys = foldr (\x acc -> if x == y then True else acc) False ys
+
+maximum' :: (Ord a) => [a] -> a
+maximum' = foldl1 max
+
+reverse' :: [a] -> [a]
+reverse' = foldl (\acc x -> x : acc) []
+
+filter'' :: (a -> Bool) -> [a] -> [a]
+filter'' p = foldr (\x acc -> if p x then x : acc else acc) []
+
+and' :: [Bool] -> Bool
+and' = foldr (&&) True
