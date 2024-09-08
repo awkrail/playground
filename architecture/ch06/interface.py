@@ -78,6 +78,42 @@ class HelFire(Magic):
     def costTechnicalPoint(self) -> int:
         return 20 + (self.member.level * 0.4)
 
+class purchaseHistory:
+    def __init__(self, purchase_freq, total_amount, return_rate) -> None:
+        self.purchase_freq = purchase_freq
+        self.total_amount = total_amount
+        self.return_rate = return_rate
+
+class ExcellentCustomerRule(metaclass=abc.ABCMeta):
+    @abc.abstractmethod
+    def ok(self, history: purchaseHistory) -> bool:
+        return True
+
+class GoldCustomerPurchaseAmountRule(ExcellentCustomerRule):
+    def ok(self, history: purchaseHistory) -> bool:
+        return 100000 <= history.total_amount
+
+class PurchaseFrequencyRule(ExcellentCustomerRule):
+    def ok(self, history: purchaseHistory) -> bool:
+        return 10 <= history.purchase_freq
+
+class ReturnRateRule(ExcellentCustomerRule):
+    def ok(self, history: purchaseHistory) -> bool:
+        return history.return_rate <= 0.001
+
+class ExcellentCustomerPolicy:
+    def __init__(self) -> None:
+        self.rules = set()
+    
+    def add(self, rule: ExcellentCustomerRule):
+        self.rules.add(rule)
+    
+    def compolyWithAll(self, history: purchaseHistory) -> bool:
+        for rule in self.rules:
+            if not rule.ok(history):
+                return False
+        return True
+
 
 rectanble: Recetangle = Recetangle(1.0, 2.0)
 circle: Circle = Circle(3.0)
